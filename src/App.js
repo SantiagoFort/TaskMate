@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Tareas Pendientes</h1>
+      <h1>Mis Tareas</h1>
 
       {/* Botones para cambiar de vista */}
       <div style={{ marginBottom: '20px' }}>
