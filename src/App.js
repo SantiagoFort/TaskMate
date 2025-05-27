@@ -73,12 +73,16 @@ function App() {
       <h1>Tareas Pendientes</h1>
 
       {/* Botones para cambiar entre la vista de tareas y la sección acerca de */}
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
-          Tareas
-        </button>
-        <button onClick={() => setVista('acerca')}>Acerca de</button>
+      <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <input
+          type="checkbox"
+          id="horaCheckbox"
+          checked={usarHora}
+          onChange={(e) => setUsarHora(e.target.checked)}
+        />
+        <label htmlFor="horaCheckbox" style={{ fontSize: '14px' }}>Agregar hora</label>
       </div>
+
 
       {/* Si la vista es "tareas", mostramos la app principal */}
       {vista === 'tareas' && (
