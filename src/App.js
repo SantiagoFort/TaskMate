@@ -98,19 +98,20 @@ function App() {
             type="date"
             value={fecha}
             onChange={(e) => setFecha(e.target.value)}
+            placeholder="dd/mm/aaaa"
+            style={{ fontSize: '14px' }}
           />
 
           {/* Checkbox para activar o no el campo de hora */}
-          <div style={{ marginTop: '10px' }}>
-            <label>
-              <input
-                type="checkbox"
-                checked={usarHora}
-                onChange={(e) => setUsarHora(e.target.checked)}
-              />
-              ¿Agregar hora?
-            </label>
-          </div>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '10px 0' }}>
+            <input
+              type="checkbox"
+              checked={usarHora}
+              onChange={(e) => setUsarHora(e.target.checked)}
+            />
+            Agregar hora
+          </label>
+
 
           {/* Si se activa el checkbox, aparece el campo de hora */}
           {usarHora && (
