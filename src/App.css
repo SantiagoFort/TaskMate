@@ -163,11 +163,13 @@ input[type="date"]::-webkit-datetime-edit {
 
 .fecha-placeholder {
   position: absolute;
+  top: 50%;
   left: 16px;
-  top: 12px; /* mejor ajuste para iOS */
+  transform: translateY(-50%);
   color: #888;
   font-size: 14px;
   pointer-events: none;
   z-index: 1;
+  line-height: 1;
 }
 
