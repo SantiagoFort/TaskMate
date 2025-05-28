@@ -1,5 +1,6 @@
+// Importo los hooks necesarios desde React
 import { useState, useEffect } from 'react';
-import './App.css';
+import './App.css'; // Importo los estilos
 
 function App() {
   const [vista, setVista] = useState('tareas');
@@ -53,17 +54,18 @@ function App() {
     <div className="App">
       <h1>Tareas Pendientes</h1>
 
+      {/* Navegación entre vistas */}
       <div style={{ marginBottom: '20px' }}>
-        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
-          Tareas
-        </button>
+        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>Tareas</button>
         <button onClick={() => setVista('acerca')}>Acerca de</button>
       </div>
 
+      {/* Vista de tareas */}
       {vista === 'tareas' && (
         <>
           <p>Tienes {tareasPendientes} tareas pendientes</p>
 
+          {/* Input de texto */}
           <input
             type="text"
             value={tarea}
@@ -71,52 +73,45 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
+          {/* Etiqueta visible para la fecha */}
+          <label htmlFor="fechaInput" style={{ fontSize: '14px', marginTop: '10px', display: 'block' }}>
+            Fecha:
+          </label>
           <input
+            id="fechaInput"
             type="date"
             value={fecha}
             onChange={(e) => setFecha(e.target.value)}
-            style={{
-              color: fecha ? '#000' : '#aaa',
-              fontSize: '14px',
-              marginTop: '8px',
-            }}
+            style={{ fontSize: '14px' }}
           />
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginTop: '10px',
-            gap: '8px',
-            fontSize: '14px',
-            justifyContent: 'center'
-          }}>
+          {/* Checkbox "Agregar hora" */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', margin: '10px 0' }}>
             <input
-              type="checkbox"
               id="horaCheckbox"
+              type="checkbox"
               checked={usarHora}
               onChange={(e) => setUsarHora(e.target.checked)}
             />
-            <label htmlFor="horaCheckbox">Agregar hora</label>
+            <label htmlFor="horaCheckbox" style={{ fontSize: '14px' }}>Agregar hora</label>
           </div>
 
+          {/* Input de hora si está activado */}
           {usarHora && (
             <input
               type="time"
               value={hora}
               onChange={(e) => setHora(e.target.value)}
-              style={{ marginTop: '10px' }}
             />
           )}
 
+          {/* Botón agregar */}
           <button onClick={agregarTarea}>Agregar</button>
 
+          {/* Lista de tareas ordenadas por fecha/hora */}
           <ul>
             {[...tareas]
-              .sort((a, b) => {
-                const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
-                const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
-                return dateA - dateB;
-              })
+              .sort((a, b) => new Date(`${a.fecha}T${a.hora || '00:00'}`) - new Date(`${b.fecha}T${b.hora || '00:00'}`))
               .map((t, index) => (
                 <li key={index}>
                   <span
@@ -137,6 +132,7 @@ function App() {
         </>
       )}
 
+      {/* Vista acerca */}
       {vista === 'acerca' && (
         <div>
           <p>Esta aplicación fue creada por Santiago Fort para practicar React.</p>
