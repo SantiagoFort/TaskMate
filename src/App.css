@@ -119,9 +119,12 @@ input[type="date"] {
   margin: 12px 0;
   font-size: 14px;
   padding-left: 8px;
-  flex-wrap: wrap;
   max-width: 100%;
   word-break: break-word;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 
