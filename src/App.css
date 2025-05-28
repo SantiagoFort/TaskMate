@@ -142,3 +142,29 @@ input[type="date"]::-webkit-datetime-edit {
   color: #888;
   margin-left: 4px;
 }
+
+
+/* Estilo para fecha que funcione en iPhone */
+.fecha-container {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.fecha-container input[type="date"] {
+  position: relative;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.fecha-placeholder {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
