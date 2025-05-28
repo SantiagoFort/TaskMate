@@ -1,3 +1,4 @@
+// Importo los hooks necesarios desde React
 import { useState, useEffect } from 'react';
 import './App.css';
 
@@ -53,10 +54,9 @@ function App() {
     <div className="App">
       <h1>Tareas Pendientes</h1>
 
+      {/* Botones para cambiar de vista */}
       <div style={{ marginBottom: '20px' }}>
-        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
-          Tareas
-        </button>
+        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>Tareas</button>
         <button onClick={() => setVista('acerca')}>Acerca de</button>
       </div>
 
@@ -64,6 +64,7 @@ function App() {
         <>
           <p>Tienes {tareasPendientes} {tareasPendientes === 1 ? 'tarea pendiente' : 'tareas pendientes'}</p>
 
+          {/* Campo de texto para la tarea */}
           <input
             type="text"
             value={tarea}
@@ -81,23 +82,23 @@ function App() {
             style={{ fontSize: '14px' }}
           />
 
-          {/* Checkbox y etiqueta bien alineados */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
+          {/* Checkbox con etiqueta en línea */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '10px 0' }}>
             <input
+              id="checkboxHora"
               type="checkbox"
-              id="horaCheckbox"
               checked={usarHora}
               onChange={(e) => setUsarHora(e.target.checked)}
             />
-            <label htmlFor="horaCheckbox" style={{ fontSize: '14px' }}>Agregar hora</label>
+            <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
           </div>
 
+          {/* Campo de hora */}
           {usarHora && (
             <input
               type="time"
               value={hora}
               onChange={(e) => setHora(e.target.value)}
-              style={{ fontSize: '14px' }}
             />
           )}
 
@@ -119,8 +120,7 @@ function App() {
                     }}
                     onClick={() => toggleCompletarTarea(index)}
                   >
-                    {t.texto}
-                    <br />
+                    {t.texto}<br />
                     📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
                   </span>
                   <button onClick={() => eliminarTarea(index)}>Eliminar</button>
@@ -141,3 +141,4 @@ function App() {
 }
 
 export default App;
+
