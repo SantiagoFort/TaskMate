@@ -114,13 +114,16 @@ input[type="date"] {
 
 .checkbox-row {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   gap: 8px;
   margin: 12px 0;
   font-size: 14px;
   padding-left: 8px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  word-break: break-word;
 }
+
 
 
 
@@ -163,13 +166,10 @@ input[type="date"]::-webkit-datetime-edit {
 .fecha-placeholder {
   position: absolute;
   left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px; /* mejor ajuste para iOS */
   color: #888;
   font-size: 14px;
   pointer-events: none;
   z-index: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
 }
+
