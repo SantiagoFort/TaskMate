@@ -1,3 +1,4 @@
+// App.js
 import { useState, useEffect } from 'react';
 import './App.css';
 
@@ -53,7 +54,7 @@ function App() {
     <div className="App">
       <h1>Tareas Pendientes</h1>
 
-      {/* Navegación */}
+      {/* Navegación entre vistas */}
       <div style={{ marginBottom: '20px' }}>
         <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
           Tareas
@@ -72,40 +73,37 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
-          {/* Campo de fecha con etiqueta clara */}
-          <div style={{ marginTop: '10px', marginBottom: '10px' }}>
-            <label htmlFor="fecha" style={{ display: 'block', fontSize: '14px' }}>Fecha:</label>
-            <input
-              id="fecha"
-              type="date"
-              value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
-              style={{ fontSize: '14px' }}
-            />
-          </div>
+          <label htmlFor="fecha" style={{ fontSize: '14px', marginTop: '10px', marginBottom: '4px', display: 'block' }}>Fecha:</label>
+          <input
+            id="fecha"
+            type="date"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+            style={{ fontSize: '14px', width: '100%' }}
+          />
 
-          {/* Checkbox de hora, ahora en su fila y bien alineado */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          {/* Checkbox bien alineado */}
+          <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <input
               id="checkboxHora"
               type="checkbox"
               checked={usarHora}
               onChange={(e) => setUsarHora(e.target.checked)}
-              style={{ marginRight: '8px' }}
+              style={{ marginRight: '6px' }}
             />
             <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
           </div>
 
-          {/* Campo de hora visible solo si se activa el checkbox */}
           {usarHora && (
             <input
               type="time"
               value={hora}
               onChange={(e) => setHora(e.target.value)}
+              style={{ marginTop: '10px' }}
             />
           )}
 
-          <button onClick={agregarTarea}>Agregar</button>
+          <button onClick={agregarTarea} style={{ marginTop: '10px' }}>Agregar</button>
 
           <ul>
             {[...tareas]
@@ -123,8 +121,7 @@ function App() {
                     }}
                     onClick={() => toggleCompletarTarea(index)}
                   >
-                    {t.texto}
-                    <br />
+                    {t.texto}<br />
                     📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
                   </span>
                   <button onClick={() => eliminarTarea(index)}>Eliminar</button>
