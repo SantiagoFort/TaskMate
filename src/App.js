@@ -1,4 +1,3 @@
-// Importo los hooks necesarios desde React
 import { useState, useEffect } from 'react';
 import './App.css';
 
@@ -54,9 +53,11 @@ function App() {
     <div className="App">
       <h1>Tareas Pendientes</h1>
 
-      {/* Botones para cambiar de vista */}
+      {/* Navegación */}
       <div style={{ marginBottom: '20px' }}>
-        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>Tareas</button>
+        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
+          Tareas
+        </button>
         <button onClick={() => setVista('acerca')}>Acerca de</button>
       </div>
 
@@ -64,7 +65,6 @@ function App() {
         <>
           <p>Tienes {tareasPendientes} {tareasPendientes === 1 ? 'tarea pendiente' : 'tareas pendientes'}</p>
 
-          {/* Campo de texto para la tarea */}
           <input
             type="text"
             value={tarea}
@@ -72,28 +72,31 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
-          {/* Etiqueta visible para evitar el problema del placeholder en iPhone */}
-          <label htmlFor="fecha" style={{ fontSize: '14px', marginTop: '10px', display: 'block' }}>Fecha:</label>
-          <input
-            id="fecha"
-            type="date"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-            style={{ fontSize: '14px' }}
-          />
+          {/* Campo de fecha con etiqueta clara */}
+          <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+            <label htmlFor="fecha" style={{ display: 'block', fontSize: '14px' }}>Fecha:</label>
+            <input
+              id="fecha"
+              type="date"
+              value={fecha}
+              onChange={(e) => setFecha(e.target.value)}
+              style={{ fontSize: '14px' }}
+            />
+          </div>
 
-          {/* Checkbox con etiqueta en línea */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '10px 0' }}>
+          {/* Checkbox de hora, ahora en su fila y bien alineado */}
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
             <input
               id="checkboxHora"
               type="checkbox"
               checked={usarHora}
               onChange={(e) => setUsarHora(e.target.checked)}
+              style={{ marginRight: '8px' }}
             />
             <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
           </div>
 
-          {/* Campo de hora */}
+          {/* Campo de hora visible solo si se activa el checkbox */}
           {usarHora && (
             <input
               type="time"
@@ -120,7 +123,8 @@ function App() {
                     }}
                     onClick={() => toggleCompletarTarea(index)}
                   >
-                    {t.texto}<br />
+                    {t.texto}
+                    <br />
                     📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
                   </span>
                   <button onClick={() => eliminarTarea(index)}>Eliminar</button>
@@ -141,4 +145,3 @@ function App() {
 }
 
 export default App;
-
