@@ -1,49 +1,33 @@
-// Importo los hooks necesarios desde React
 import { useState, useEffect } from 'react';
-import './App.css'; // Importo los estilos
+import './App.css';
 
-// Componente principal de la app
 function App() {
-  // Estado para controlar qué vista se muestra (tareas o acerca)
   const [vista, setVista] = useState('tareas');
-
-  // Estado del texto de la tarea
   const [tarea, setTarea] = useState('');
-
-  // Estado para la fecha seleccionada
   const [fecha, setFecha] = useState('');
-
-  // Estado para activar/desactivar el campo de hora
   const [usarHora, setUsarHora] = useState(false);
-
-  // Estado para la hora (si se activa)
   const [hora, setHora] = useState('');
 
-  // Estado para la lista de tareas (inicializado desde LocalStorage)
   const [tareas, setTareas] = useState(() => {
     const tareasGuardadas = localStorage.getItem('tareas');
     return tareasGuardadas ? JSON.parse(tareasGuardadas) : [];
   });
 
-  // useEffect que guarda las tareas en el navegador cada vez que cambian
   useEffect(() => {
     localStorage.setItem('tareas', JSON.stringify(tareas));
   }, [tareas]);
 
-  // Función para agregar una tarea nueva
   const agregarTarea = () => {
-    // Validamos que haya texto y fecha (la hora es opcional)
     if (tarea.trim() !== '' && fecha !== '') {
       setTareas([
         ...tareas,
         {
           texto: tarea,
           completada: false,
-          fecha,              // guardamos la fecha
-          hora: usarHora ? hora : null, // si se activó, guardamos la hora
+          fecha,
+          hora: usarHora ? hora : null,
         },
       ]);
-      // Limpiamos los campos
       setTarea('');
       setFecha('');
       setHora('');
@@ -51,12 +35,10 @@ function App() {
     }
   };
 
-  // Eliminar una tarea según su índice
   const eliminarTarea = (index) => {
     setTareas(tareas.filter((_, i) => i !== index));
   };
 
-  // Alternar el estado de completada de una tarea
   const toggleCompletarTarea = (index) => {
     setTareas(
       tareas.map((t, i) =>
@@ -65,31 +47,23 @@ function App() {
     );
   };
 
-  // Calcular cuántas tareas no están completadas
   const tareasPendientes = tareas.filter((t) => !t.completada).length;
 
   return (
     <div className="App">
       <h1>Tareas Pendientes</h1>
 
-      {/* Botones para cambiar entre la vista de tareas y la sección acerca de */}
-      <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <input
-          type="checkbox"
-          id="horaCheckbox"
-          checked={usarHora}
-          onChange={(e) => setUsarHora(e.target.checked)}
-        />
-        <label htmlFor="horaCheckbox" style={{ fontSize: '14px' }}>Agregar hora</label>
+      <div style={{ marginBottom: '20px' }}>
+        <button onClick={() => setVista('tareas')} style={{ marginRight: '10px' }}>
+          Tareas
+        </button>
+        <button onClick={() => setVista('acerca')}>Acerca de</button>
       </div>
 
-
-      {/* Si la vista es "tareas", mostramos la app principal */}
       {vista === 'tareas' && (
         <>
           <p>Tienes {tareasPendientes} tareas pendientes</p>
 
-          {/* Campo para escribir la tarea */}
           <input
             type="text"
             value={tarea}
@@ -97,70 +71,72 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
-          {/* Campo para seleccionar la fecha */}
           <input
             type="date"
             value={fecha}
             onChange={(e) => setFecha(e.target.value)}
-            placeholder="dd/mm/aaaa"
-            style={{ fontSize: '14px' }}
+            style={{
+              color: fecha ? '#000' : '#aaa',
+              fontSize: '14px',
+              marginTop: '8px',
+            }}
           />
 
-          {/* Checkbox para activar o no el campo de hora */}
-          <label style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '10px 0' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: '10px',
+            gap: '8px',
+            fontSize: '14px',
+            justifyContent: 'center'
+          }}>
             <input
               type="checkbox"
+              id="horaCheckbox"
               checked={usarHora}
               onChange={(e) => setUsarHora(e.target.checked)}
             />
-            Agregar hora
-          </label>
+            <label htmlFor="horaCheckbox">Agregar hora</label>
+          </div>
 
-
-          {/* Si se activa el checkbox, aparece el campo de hora */}
           {usarHora && (
             <input
               type="time"
               value={hora}
               onChange={(e) => setHora(e.target.value)}
+              style={{ marginTop: '10px' }}
             />
           )}
 
-          {/* Botón para agregar la tarea */}
           <button onClick={agregarTarea}>Agregar</button>
 
-          {/* Lista de tareas */}
           <ul>
-          {[...tareas]
-            .sort((a, b) => {
-              const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
-              const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
-              return dateA - dateB;
-          })
-          .map((t, index) => (
-
-              <li key={index}>
-                <span
-                  style={{
-                    textDecoration: t.completada ? 'line-through' : 'none',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => toggleCompletarTarea(index)}
-                >
-                  {/* Texto de la tarea */}
-                  {t.texto}
-                  <br />
-                  {/* Fecha y hora, si existe */}
-                  📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
-                </span>
-                <button onClick={() => eliminarTarea(index)}>Eliminar</button>
-              </li>
-            ))}
+            {[...tareas]
+              .sort((a, b) => {
+                const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
+                const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
+                return dateA - dateB;
+              })
+              .map((t, index) => (
+                <li key={index}>
+                  <span
+                    style={{
+                      textDecoration: t.completada ? 'line-through' : 'none',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => toggleCompletarTarea(index)}
+                  >
+                    {t.texto}
+                    <br />
+                    📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
+                  </span>
+                  <button onClick={() => eliminarTarea(index)}>Eliminar</button>
+                </li>
+              ))}
           </ul>
         </>
       )}
 
-      {/* Sección "Acerca de" */}
       {vista === 'acerca' && (
         <div>
           <p>Esta aplicación fue creada por Santiago Fort para practicar React.</p>
@@ -171,5 +147,4 @@ function App() {
   );
 }
 
-// Exportamos el componente para que se use en React
 export default App;
