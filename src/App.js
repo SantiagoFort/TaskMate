@@ -73,14 +73,17 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
-          <label htmlFor="fecha" style={{ fontSize: '14px', marginTop: '10px', marginBottom: '4px', display: 'block' }}>Fecha:</label>
-          <input
-            id="fecha"
-            type="date"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-            style={{ fontSize: '14px', width: '100%' }}
-          />
+      <label htmlFor="fecha" className="fecha-label">
+        Fecha <span className="placeholder-visual">(dd/mm/aaaa)</span>
+      </label>
+      <input
+        id="fecha"
+        type="date"
+        value={fecha}
+        onChange={(e) => setFecha(e.target.value)}
+        required
+      />
+      
 
           {/* Checkbox bien alineado */}
           {/* Checkbox bien alineado y responsivo */}
