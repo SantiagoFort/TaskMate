@@ -177,7 +177,7 @@ input[type="date"]::-webkit-datetime-edit {
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .fecha-placeholder {
-    top: 6px;
+    top: 7px;
     font-size: 13px;
     opacity: 0.9;
   }
