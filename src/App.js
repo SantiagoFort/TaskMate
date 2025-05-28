@@ -83,52 +83,55 @@ function App() {
           />
 
           {/* Checkbox bien alineado */}
-          <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <input
-              id="checkboxHora"
-              type="checkbox"
-              checked={usarHora}
-              onChange={(e) => setUsarHora(e.target.checked)}
-              style={{ marginRight: '6px' }}
-            />
-            <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
-          </div>
+          {/* Checkbox bien alineado y responsivo */}
+<div className="checkbox-row">
+  <input
+    id="checkboxHora"
+    type="checkbox"
+    checked={usarHora}
+    onChange={(e) => setUsarHora(e.target.checked)}
+  />
+  <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
+</div>
 
-          {usarHora && (
-            <input
-              type="time"
-              value={hora}
-              onChange={(e) => setHora(e.target.value)}
-              style={{ marginTop: '10px' }}
-            />
-          )}
+{/* Campo de hora si está activado */}
+{usarHora && (
+  <input
+    type="time"
+    value={hora}
+    onChange={(e) => setHora(e.target.value)}
+    style={{ marginTop: '10px' }}
+  />
+)}
 
-          <button onClick={agregarTarea} style={{ marginTop: '10px' }}>Agregar</button>
+<button onClick={agregarTarea} style={{ marginTop: '10px' }}>Agregar</button>
 
-          <ul>
-            {[...tareas]
-              .sort((a, b) => {
-                const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
-                const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
-                return dateA - dateB;
-              })
-              .map((t, index) => (
-                <li key={index}>
-                  <span
-                    style={{
-                      textDecoration: t.completada ? 'line-through' : 'none',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => toggleCompletarTarea(index)}
-                  >
-                    {t.texto}<br />
-                    📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
-                  </span>
-                  <button onClick={() => eliminarTarea(index)}>Eliminar</button>
-                </li>
-              ))}
-          </ul>
-        </>
+<ul>
+  {[...tareas]
+    .sort((a, b) => {
+      const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
+      const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
+      return dateA - dateB;
+    })
+    .map((t, index) => (
+      <li key={index}>
+        <span
+          style={{
+            textDecoration: t.completada ? 'line-through' : 'none',
+            cursor: 'pointer',
+          }}
+          onClick={() => toggleCompletarTarea(index)}
+        >
+          {t.texto}<br />
+          📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
+        </span>
+        <button onClick={() => eliminarTarea(index)}>Eliminar</button>
+      </li>
+    ))}
+</ul>
+
+  
+</>
       )}
 
       {vista === 'acerca' && (

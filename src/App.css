@@ -96,3 +96,21 @@ body {
 .App li button:hover {
   background-color: #c0392b;
 }
+
+/* ✅ Ajuste visual para el input de fecha en iPhone */
+input[type="date"] {
+  font-size: 16px; /* evita que se reduzca en iPhone */
+  padding: 12px;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ✅ Alineación del checkbox con su texto */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap; /* hace que el texto no se salga en pantallas chicas */
+}
+
