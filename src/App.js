@@ -83,7 +83,10 @@ function App() {
           required
           placeholder="dd/mm/aaaa"
         />
-        {!fecha && <span className="fecha-placeholder">dd/mm/aaaa</span>}
+        {!fecha && /iPhone|iPad|iPod/i.test(navigator.userAgent) && (
+          <span className="fecha-placeholder">dd/mm/aaaa</span>
+        )}
+
       </div>
 
       
