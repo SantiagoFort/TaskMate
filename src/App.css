@@ -106,11 +106,24 @@ input[type="date"] {
 }
 
 /* ✅ Alineación del checkbox con su texto */
+
+
+#checkboxHora {
+  accent-color: #6a11cb;
+}
+
 .checkbox-row {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin: 10px 0;
-  flex-wrap: wrap; /* hace que el texto no se salga en pantallas chicas */
+  gap: 8px;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 14px;
 }
+
+input[type="date"]::-webkit-datetime-edit {
+  color: #444;
+}
+
 
