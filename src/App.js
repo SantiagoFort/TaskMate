@@ -8,6 +8,7 @@ function App() {
   const [fecha, setFecha] = useState('');
   const [usarHora, setUsarHora] = useState(false);
   const [hora, setHora] = useState('');
+  const [criterioOrden, setCriterioOrden] = useState('fechaAsc');
 
   const [tareas, setTareas] = useState(() => {
     const tareasGuardadas = localStorage.getItem('tareas');
@@ -37,7 +38,10 @@ function App() {
   };
 
   const eliminarTarea = (index) => {
-    setTareas(tareas.filter((_, i) => i !== index));
+    const confirmar = window.confirm("¿Seguro que querés eliminar esta tarea?");
+    if (confirmar) {
+      setTareas(tareas.filter((_, i) => i !== index));
+    }
   };
 
   const toggleCompletarTarea = (index) => {
@@ -73,74 +77,91 @@ function App() {
             placeholder="Escribe una tarea"
           />
 
-      <div className="fecha-container">
-        <label htmlFor="fecha">Fecha</label>
-        <input
-          id="fecha"
-          type="date"
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-          required
-          placeholder="dd/mm/aaaa"
-        />
-        {!fecha && /iPhone|iPad|iPod/i.test(navigator.userAgent) && (
-          <span className="fecha-placeholder">dd/mm/aaaa</span>
-        )}
+          <div className="fecha-container">
+            <label htmlFor="fecha">Fecha</label>
+            <input
+              id="fecha"
+              type="date"
+              value={fecha}
+              onChange={(e) => setFecha(e.target.value)}
+              required
+              placeholder="dd/mm/aaaa"
+            />
+            {!fecha && /iPhone|iPad|iPod/i.test(navigator.userAgent) && (
+              <span className="fecha-placeholder">dd/mm/aaaa</span>
+            )}
+          </div>
 
-      </div>
+          <div className="checkbox-row">
+            <input
+              id="checkboxHora"
+              type="checkbox"
+              checked={usarHora}
+              onChange={(e) => setUsarHora(e.target.checked)}
+            />
+            <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
+          </div>
 
-      
+          {usarHora && (
+            <input
+              type="time"
+              value={hora}
+              onChange={(e) => setHora(e.target.value)}
+              style={{ marginTop: '10px' }}
+            />
+          )}
 
-          {/* Checkbox bien alineado */}
-          {/* Checkbox bien alineado y responsivo */}
-<div className="checkbox-row">
-  <input
-    id="checkboxHora"
-    type="checkbox"
-    checked={usarHora}
-    onChange={(e) => setUsarHora(e.target.checked)}
-  />
-  <label htmlFor="checkboxHora" style={{ fontSize: '14px' }}>Agregar hora</label>
-</div>
+          <button onClick={agregarTarea} style={{ marginTop: '10px' }}>Agregar</button>
 
-{/* Campo de hora si está activado */}
-{usarHora && (
-  <input
-    type="time"
-    value={hora}
-    onChange={(e) => setHora(e.target.value)}
-    style={{ marginTop: '10px' }}
-  />
-)}
+          {/* Filtro de orden */}
+          <label htmlFor="orden" style={{ marginTop: '10px', fontSize: '14px' }}>Ordenar por:</label>
+          <select
+            id="orden"
+            value={criterioOrden}
+            onChange={(e) => setCriterioOrden(e.target.value)}
+            style={{ marginBottom: '10px', padding: '8px', fontSize: '14px', width: '100%' }}
+          >
+            <option value="fechaAsc">Fecha (más cercana primero)</option>
+            <option value="fechaDesc">Fecha (más lejana primero)</option>
+            <option value="pendientes">Pendientes primero</option>
+            <option value="completadas">Completadas primero</option>
+          </select>
 
-<button onClick={agregarTarea} style={{ marginTop: '10px' }}>Agregar</button>
+          <ul>
+            {[...tareas]
+              .sort((a, b) => {
+                const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
+                const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
 
-<ul>
-  {[...tareas]
-    .sort((a, b) => {
-      const dateA = new Date(`${a.fecha}T${a.hora || '00:00'}`);
-      const dateB = new Date(`${b.fecha}T${b.hora || '00:00'}`);
-      return dateA - dateB;
-    })
-    .map((t, index) => (
-      <li key={index}>
-        <span
-          style={{
-            textDecoration: t.completada ? 'line-through' : 'none',
-            cursor: 'pointer',
-          }}
-          onClick={() => toggleCompletarTarea(index)}
-        >
-          {t.texto}<br />
-          📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
-        </span>
-        <button onClick={() => eliminarTarea(index)}>Eliminar</button>
-      </li>
-    ))}
-</ul>
-
-  
-</>
+                switch (criterioOrden) {
+                  case 'fechaDesc':
+                    return dateB - dateA;
+                  case 'pendientes':
+                    return (a.completada === b.completada) ? 0 : a.completada ? 1 : -1;
+                  case 'completadas':
+                    return (a.completada === b.completada) ? 0 : a.completada ? -1 : 1;
+                  case 'fechaAsc':
+                  default:
+                    return dateA - dateB;
+                }
+              })
+              .map((t, index) => (
+                <li key={index}>
+                  <span
+                    style={{
+                      textDecoration: t.completada ? 'line-through' : 'none',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => toggleCompletarTarea(index)}
+                  >
+                    {t.texto}<br />
+                    📅 {t.fecha} {t.hora ? `🕒 ${t.hora}` : ''}
+                  </span>
+                  <button onClick={() => eliminarTarea(index)}>Eliminar</button>
+                </li>
+              ))}
+          </ul>
+        </>
       )}
 
       {vista === 'acerca' && (
